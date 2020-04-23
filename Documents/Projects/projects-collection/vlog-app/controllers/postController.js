@@ -24,21 +24,6 @@ exports.viewSingle = async function(req, res) {
   }
 }
 
-// code what I removed
-/* exports.viewEditScreen = async function(req, res) {
-  try {
-    let post = await Post.findSingleById(req.params.id)
-    if (post.authorId == req.visitorId) {
-      res.render("edit-post", {post: post})
-    } else {
-      req.flash("errors", "You do not have a permission perform this action.")
-      req.session.save(() => res.redirect("/"))
-    }
-  } catch {
-    res.render("404")
-  }
-} */
-///////////////////
 exports.viewEditScreen = async function(req, res) {
   try {
     let post = await Post.findSingleById(req.params.id, req.visitorId)
@@ -52,7 +37,7 @@ exports.viewEditScreen = async function(req, res) {
     res.render("404")
   }
 }
-//////////////////
+
 exports.edit = function(req, res) {
   let post = new Post(req.body, req.visitorId, req.params.id)
   post.update().then((status) => {
@@ -81,7 +66,6 @@ exports.edit = function(req, res) {
     })
   })
 }
-
 
 exports.delete = function(req, res) {
   Post.delete(req.params.id, req.visitorId).then(() => {
