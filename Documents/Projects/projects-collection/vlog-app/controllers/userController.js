@@ -2,6 +2,19 @@ const User = require('../models/User')
 const Post = require('../models/Post')
 const Follow = require('../models/Follow')
 
+exports.doesEmailExist = async function(req, res) {
+  let emailBool = await User.doesEmailExist(req.body.email)
+  res.json(emailBool)
+}
+
+exports.doesUsernameExist = function(req, res) {
+  User.findByUsername(req.body.username).then(function() {
+    res.json(true)
+  }).catch(function() {
+    res.json(false)
+  })
+}
+
 exports.sharedProfileData = async function(req, res, next) {
   let isVisitorsProfile = false
   let isFollowing = false
